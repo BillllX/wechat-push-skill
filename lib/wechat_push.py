@@ -81,7 +81,7 @@ def detect_active_account(target_openid: str = None) -> str:
     优先级：
       1. context_tokens 里有 target_openid 的 bot（你能发的）
       2. 多个 context match 时，取 sync.json mtime 最新的
-      3. 都没 match → 返 DEFAULT_ACCOUNT（需用户在 config 显式指定）
+      3. 都没 match → 返 DEFAULT_ACCOUNT（为空时要求用户先建立 context 或高级手动指定）
     
     返回格式：与 `openclaw message send --account` 期望一致（xxx-im-bot，带横线）。
     """
@@ -170,7 +170,7 @@ def send_via_openclaw(message: str, target: str, account: str, silent: bool = Fa
     if not target:
         return False, "no target openid (set in ~/.config/wechat-push/config)"
     if not account:
-        return False, "no bot account found (set account=... in ~/.config/wechat-push/config)"
+        return False, "no bot account found. Send a message to the bot first to establish context, then retry."
 
     account = normalize_account(account)
 

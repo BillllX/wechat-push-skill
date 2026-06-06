@@ -170,7 +170,7 @@ if [ -f "$CONFIG" ]; then
             echo -e "  ${GREEN}✅ 探测的 bot ($DETECTED) 跟你有 context，能真推${NC}"
         else
             echo -e "  ${RED}❌ 探测的 bot ($DETECTED) 跟你没 context（推了也假成功）${NC}"
-            echo "  修法：发一条消息给 bot 触发 context，或者显式 config 里写 account=..."
+            echo "  修法：先发一条消息给 bot 触发 context，然后重跑 doctor；只有自动探测反复选错时才手动写 account=..."
         fi
     else
         echo -e "  ${YELLOW}⚠️ openid 未配，跳过探测${NC}"

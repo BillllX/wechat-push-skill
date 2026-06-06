@@ -66,6 +66,14 @@ wechat-push-doctor
 
 **成功标准**：安装成功不是脚本 exit 0，而是 `wechat-push "test"` 后用户手机微信实际收到消息。
 
+### 账号选择策略
+
+默认只需要配置 `openid`，不要写死 `account`。每次发送前，`wechat-push` 会按当前 `openid` 动态选择 bot account：
+
+- 优先选择 `context_tokens` 里包含该 `openid` 的 bot。
+- 如果多个 bot 匹配，选择最近仍在 sync 的 bot。
+- 只有自动探测反复选错时，才在配置文件里手动写 `account=...`。
+
 ### 自动化
 
 接 cron 让推送自动化：
@@ -154,6 +162,14 @@ wechat-push-doctor
 ```
 
 **Success criterion**: installation is only truly verified when `wechat-push "test"` is received on the user's phone WeChat, not merely when the script exits 0.
+
+### Account Selection
+
+By default, only configure `openid`; do not pin `account`. Before each send, `wechat-push` dynamically selects the bot account for the current `openid`:
+
+- Prefer a bot whose `context_tokens` contains the target `openid`.
+- If multiple bots match, choose the one with the most recent sync.
+- Only set `account=...` manually when automatic detection repeatedly selects the wrong bot.
 
 ### Automation
 
