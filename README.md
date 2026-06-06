@@ -19,10 +19,17 @@
 
 这个 skill 通过调用 **OpenClaw 微信插件**的内部通道绕开这个限制。
 
+### 安装先决条件
+
+使用本 skill 前，需要先满足两个条件：
+
+- 已经在使用 **OpenClaw**，并且本机可以正常运行 `openclaw` CLI。
+- 已经有通畅的 **OpenClaw 微信渠道**：微信插件已完成扫码绑定，且能通过 OpenClaw 微信插件正常收发消息。
+
 ### 装上
 
 ```bash
-# 1. 先装 OpenClaw 并完成微信插件首次扫码绑定
+# 1. 确认已满足上面的安装先决条件
 #    参考: https://docs.openclaw.ai
 
 # 2. 装本 skill
@@ -101,10 +108,17 @@ WeChat's official "24-hour customer service window" rule: a user must **first se
 
 This skill bypasses the limit by going through the **OpenClaw WeChat plugin's internal channel**.
 
+### Prerequisites
+
+Before installing this skill, make sure both prerequisites are met:
+
+- You are already using **OpenClaw**, and the `openclaw` CLI works on this machine.
+- You already have a working **OpenClaw WeChat channel**: the WeChat plugin has completed QR-code binding and can send/receive messages through OpenClaw.
+
 ### Install
 
 ```bash
-# 1. Install OpenClaw and complete the WeChat plugin's first QR-code binding
+# 1. Make sure the prerequisites above are satisfied
 #    See: https://docs.openclaw.ai
 
 # 2. Install this skill
