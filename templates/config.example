@@ -1,0 +1,17 @@
+# 微信主动推送 skill 配置文件
+# 路径：~/.config/wechat-push/config
+#
+# 格式：key=value 注释用 # 开头
+# ⚠️ 必须填写真实 openid（不能留 <YOUR_OPENID> 占位符），否则安装会失败
+# ⚠️ openid 含 @im.wechat 后缀，形如 oXXXXXXXXXXXXXXXXX@im.wechat
+# ⚠️ 怎么拿？问 OpenClaw 微信插件或者从 sync.json 的 get_updates_buf base64 解码
+
+openid=<YOUR_OPENID_HERE>
+
+# 可选：覆盖默认 bot 账号
+# 不填则自动按下面顺序探测：
+#   1. 找 context_tokens 里有你 openid 的 bot（准）
+#   2. 找不到再按 sync.json mtime 选最近的（不准，plugin 可能给别的用户轮询）
+# 推荐显式指定，避免 plugin 批量 sync 时探测选错
+# 格式：xxx-im-bot（推荐）；如果只填 xxx，程序会自动补齐 -im-bot
+# account=<YOUR_BOT_ID_HERE>
