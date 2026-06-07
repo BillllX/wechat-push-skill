@@ -62,13 +62,12 @@ check_accounts_dir() {
 }
 check_bot_token_file() {
     # 用 compgen -G 替代 ls|head：compgen 在无匹配时返 1，匹配返 0
-    compgen -G "$HOME/.openclaw/openclaw-weixin/accounts/*@im.bot.json" >/dev/null
+    compgen -G "$HOME/.openclaw/openclaw-weixin/accounts/*im-bot.json" >/dev/null
 }
 check_bot_json_valid() {
     python3 -c "
 import json, os, glob
-files = glob.glob(os.path.expanduser('~/.openclaw/openclaw-weixin/accounts/*@im.bot.json'))
-files = [f for f in files if '-' not in os.path.basename(f)]
+files = glob.glob(os.path.expanduser('~/.openclaw/openclaw-weixin/accounts/*im-bot.json'))
 assert files, 'no bot found'
 for f in files:
     json.load(open(f))
