@@ -121,8 +121,8 @@ def detect_active_account(target_openid: str = None) -> str:
     if not candidates:
         # 3. 兜底：扫 token 文件
         for f in os.listdir(accounts_dir):
-            if f.endswith("@im.bot.json") and "-" not in f:
-                bot_id = f.replace("@im.bot.json", "") + "-im-bot"
+            if f.endswith("im-bot.json"):
+                bot_id = f.replace("im-bot.json", "") + "-im-bot"
                 path = os.path.join(accounts_dir, f)
                 mtime = os.path.getmtime(path)
                 candidates.append((mtime, bot_id))
