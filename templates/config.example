@@ -8,10 +8,10 @@
 
 openid=<YOUR_OPENID_HERE>
 
-# 可选：覆盖默认 bot 账号
-# 不填则自动按下面顺序探测：
+# 可选：覆盖默认 bot 账号（通常不要填）
+# 默认推荐只配置 openid，不写 account。每次发送前会按下面顺序动态探测：
 #   1. 找 context_tokens 里有你 openid 的 bot（准）
 #   2. 找不到再按 sync.json mtime 选最近的（不准，plugin 可能给别的用户轮询）
-# 推荐显式指定，避免 plugin 批量 sync 时探测选错
+# 只有在自动探测反复选错时，才手动指定 account。
 # 格式：xxx-im-bot（推荐）；如果只填 xxx，程序会自动补齐 -im-bot
 # account=<YOUR_BOT_ID_HERE>

@@ -108,28 +108,29 @@ else
     exit 1
 fi
 
+# 默认推荐：只配置 openid，不写死 account；每次发送前按 openid 动态匹配 bot。
+if grep -q "^account=" "$CONFIG_FILE"; then
+    EXISTING_ACCOUNT=$(grep "^account=" "$CONFIG_FILE" | cut -d= -f2)
+    echo ""
+    echo -e "  ${YELLOW}⚠️ 当前 config 写死了 account=$EXISTING_ACCOUNT${NC}"
+    echo "  这会跳过每次发送前的动态账号选择。"
+    read -p "  是否移除 account=，改为运行时动态选择？[Y/n] " -n 1 -r REPLY
+    echo
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+        sed -i.bak '/^account=/d' "$CONFIG_FILE"
+        echo -e "  ${GREEN}✅ 已移除 account=，之后会每次发送前自动选择 bot${NC}"
+    fi
+fi
+
 # 4.5. 重探测活跃账号（按 openid 查 context_token，能选对 bot）
 echo ""
 echo -e "${BLUE}4.5 重探测活跃账号（按 openid 查 context_token）${NC}"
 ACTIVE_BOT=$(python3 "${SKILL_DIR}/lib/wechat_push.py" --detect-account --to "$OPENID")
 if [ -n "$ACTIVE_BOT" ]; then
-    echo -e "  推荐账号：${GREEN}$ACTIVE_BOT${NC}"
-    # 检查是否要写入 config
+    echo -e "  本次动态探测结果：${GREEN}$ACTIVE_BOT${NC}"
     CT_FILE="$HOME/.openclaw/openclaw-weixin/accounts/${ACTIVE_BOT}.context-tokens.json"
     if [ -f "$CT_FILE" ] && grep -q "$OPENID" "$CT_FILE" 2>/dev/null; then
-        echo -e "  ${GREEN}✅ 跟你有 context，推送会真成功${NC}"
-        # 问用户要不要写死到 config
-        read -p "  写入 config (account=$ACTIVE_BOT)？[Y/n] " -n 1 -r REPLY
-        echo
-        if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-            if grep -q "^account=" "$CONFIG_FILE"; then
-                # 替换已有
-                sed -i.bak "s|^account=.*|account=$ACTIVE_BOT|" "$CONFIG_FILE"
-            else
-                echo "account=$ACTIVE_BOT" >> "$CONFIG_FILE"
-            fi
-            echo -e "  ${GREEN}✅ 已写入 $CONFIG_FILE${NC}"
-        fi
+        echo -e "  ${GREEN}✅ 跟你有 context；之后每次发送前都会按 openid 重新选择 bot${NC}"
     else
         echo -e "  ${YELLOW}⚠️ 探测到的是 sync mtime 最高的，不一定跟你有 context${NC}"
         echo "  建议：先发一条消息给 bot 建立 context，然后重跑 install.sh"
